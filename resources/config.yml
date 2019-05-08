@@ -1,0 +1,19 @@
+max-blocks: 10000
+### This is like spawn radius, but in blocks.
+### If exceeded over the amount of blocks (above max blocks)
+### then the border will kick in.
+
+
+border-message: "&aYou have reached the world border. Teleporting you somewhere safe..."
+
+spawn-coordinates: 1, 1, 1
+  ### Spawn coordinates - Where the max blocks will only begin once the spawn coordinates are set to your likings.
+  ### From there, the max blocks will travel from the spawn coords to the max blocks.
+
+tp-type: Vector3
+### Be careful when setting this option.
+### This option allows you to choose the TP type from Vector3 to Position. If you set an invalid option, errors will start to arise.
+### Only set this option if you know what you're doing.
+### Valid options:
+  # Vector3
+  # Position
