@@ -29,7 +29,7 @@ class Main extends PluginBase implements Listener{
         141, 142, 171, 244
     ];
     const unsafeBlocks = [10, 11, 51, 81];
-}
+    
 public function onEnable(): void{
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 if(!is_file($this->getDataFolder() . "config.yml")){
@@ -39,16 +39,16 @@ $config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array(
 if (!is_dir($this->getDataFolder())) { @mkdir($this->getDataFolder()); }
 }
 public function Boarder(PlayerMoveEvent $event){
-	 $spawn = new $config->get("tp-type")($config->get("spawn-coordinates")); //todo test to see if it works.
-    	$player = $event->getPlayer();
-	if($spawn->distance($player) >= $config->get("max-blocks")){
-	  $event->setCancelled(true);
-   $player->teleport($this->correctPosition($player->getLocation()));
-     $player->sendMessage(TextFormat::colorize($config->get("border-message")));
-   	}
-    }
+															    $spawn = new $config->get("tp-type")($config->get("spawn-coordinates")); //todo test to see if it works.
+															    $player = $event->getPlayer();
+															    if($spawn->distance($player) >= $config->get("max-blocks")){
+															        $event->setCancelled(true);
+															        $player->teleport($this->correctPosition($player->getLocation()));
+															        $player->sendMessage(TextFormat::colorize($config->get("border-message")));
+															    }
+															}
 
-    /**
+															/**
      * @param $location
      * @return \pocketmine\math\Vector3
      */
