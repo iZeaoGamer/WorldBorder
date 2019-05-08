@@ -51,7 +51,7 @@ public function Boarder(PlayerMoveEvent $event){
 
 															/**
      * @param $location
-     * @return \pocketmine\math\Vector3
+     * @return Vector3
      */
     public function correctPosition($location) : Vector3 {
         $knockback = 4.0;
