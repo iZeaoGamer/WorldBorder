@@ -22,12 +22,11 @@ class Main extends PluginBase implements Listener{
     private $unsafeBlocks;
     private $level;
 
-    const safeBlocks = [
-        0, 6, 8, 9, 27, 30, 31, 32, 37,
+    const safeBlocks = [0, 6, 8, 9, 27, 30, 31, 32, 37,
         38, 39, 40, 50, 59, 63, 64, 65,
         66, 68, 71, 78, 83, 104, 105, 106,
-        141, 142, 171, 244
-    ];
+        141, 142, 171, 244];
+        
     const unsafeBlocks = [10, 11, 51, 81];
     
 public function onEnable(): void{
@@ -39,14 +38,16 @@ $config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array(
 if (!is_dir($this->getDataFolder())) { @mkdir($this->getDataFolder()); }
 }
 public function Boarder(PlayerMoveEvent $event){
-															    $spawn = new $config->get("tp-type")($config->get("spawn-coordinates")); //todo test to see if it works.
-															    $player = $event->getPlayer();
-															    if($spawn->distance($player) >= $config->get("max-blocks")){
-															        $event->setCancelled(true);
-															        $player->teleport($this->correctPosition($player->getLocation()));
-															        $player->sendMessage(TextFormat::colorize($config->get("border-message")));
-															    }
-															}
+    $config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
+    $type = new $config->get("tp-type");
+    $spawn = new $type($config->get("spawn-coordinates")); //todo test to see if it works.
+	 $player = $event->getPlayer();
+		 if($spawn->distance($player) >= $config->get("max-blocks")){
+		  $event->setCancelled(true);
+		  $player->teleport($this->correctPosition($player->getLocation()));
+			  $player->sendMessage(TextFormat::colorize($config->get("border-message")));
+		 }
+	}
 
 															/**
      * @param $location
