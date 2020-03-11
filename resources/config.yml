@@ -1,19 +1,27 @@
-max-blocks: 10000
-### This is like spawn radius, but in blocks.
-### If exceeded over the amount of blocks (above max blocks)
-### then the border will kick in.
+# This is like spawn radius, but in blocks.
+# If exceeded over the amount of blocks
+# then the border will kick in.
+range: 10000
 
+# teleport: Toggles on whether or not you teleport to the safest position
+# once you've reached the world border.
+# If you set this option to true,
+# then you'll be teleported to the safest location whenever you've reached the world border.
+# If you set this option to false,
+# then you won't be teleported everytime you reach the world border.
+teleport: true
 
+# Border Message. & can be used for coloring your messages.
 border-message: "&aYou have reached the world border. Teleporting you somewhere safe..."
 
+# This option allows you to toggle on whether or not the spawn coordinates will kick in. If you set this to true,
+# it'll rely on default level spawn and ignore the spawn-coordinates option.
+# If you set this to false, you'll need to configure the spawn-coordinates option
+# to the coordinates of your spawnpoint.
+def-level-spawn: true
+ 
+# Spawn coordinates - Where the range will only begin once the spawn coordinates are set to your likings.
+# From there, the range will travel from the spawn coords to the max blocks (AKA Range).
+# Ignore this option if def-level-spawn is true.
 spawn-coordinates: 1, 1, 1
-  ### Spawn coordinates - Where the max blocks will only begin once the spawn coordinates are set to your likings.
-  ### From there, the max blocks will travel from the spawn coords to the max blocks.
-
-tp-type: Vector3
-### Be careful when setting this option.
-### This option allows you to choose the TP type from Vector3 to Position. If you set an invalid option, errors will start to arise.
-### Only set this option if you know what you're doing.
-### Valid options:
-  # Vector3
-  # Position
+  

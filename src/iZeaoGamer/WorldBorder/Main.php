@@ -1,4 +1,4 @@
-<?php 
+<<?php 
 namespace iZeaoGamer\WorldBorder;
 
 use pocketmine\level\Level;
@@ -21,6 +21,7 @@ class Main extends PluginBase implements Listener{
     private $safeBlocks;
     private $unsafeBlocks;
     private $level;
+    public $config;
 
     const safeBlocks = [0, 6, 8, 9, 27, 30, 31, 32, 37,
         38, 39, 40, 50, 59, 63, 64, 65,
@@ -34,18 +35,27 @@ $this->getServer()->getPluginManager()->registerEvents($this, $this);
 if(!is_file($this->getDataFolder() . "config.yml")){
     $this->saveDefaultConfig();
 }
-$config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
-if (!is_dir($this->getDataFolder())) { @mkdir($this->getDataFolder()); }
+$this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
+
+if (!is_dir($this->getDataFolder())) {
+    @mkdir($this->getDataFolder());
+    }
 }
 public function Boarder(PlayerMoveEvent $event){
-    $config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
-    $type = new $config->get("tp-type");
-    $spawn = new $type($config->get("spawn-coordinates")); //todo test to see if it works.
+  
+    
+    if($this->config->get("def-level-spawn")){
+        $spawn = $this->getServer()->getDefaultLevel()->getSpawnLocation();
+    }else{
+        $spawn = new Vector3($this->config->get("spawn-coordinates")); //todo implement multiworld support
+    }
 	 $player = $event->getPlayer();
-		 if($spawn->distance($player) >= $config->get("max-blocks")){
-		  $event->setCancelled(true);
-		  $player->teleport($this->correctPosition($player->getLocation()));
-			  $player->sendMessage(TextFormat::colorize($config->get("border-message")));
+		 if($spawn->distance($player) >= $this->config->get("range")){
+          $event->setCancelled(true);
+          if($this->config->get("teleport")){
+          $player->teleport($this->correctPosition($player->getLocation()));
+          }
+			  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
 		 }
 	}
 
