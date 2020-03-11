@@ -55,9 +55,9 @@ public function Boarder(PlayerMoveEvent $event){
           if($this->config->get("teleport")){
           $player->teleport($this->correctPosition($player->getLocation()));
           }
-			  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
-		 }
-	}
+	  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
+	  }
+    }
 
 															/**
      * @param $location
