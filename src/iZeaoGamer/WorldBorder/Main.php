@@ -31,6 +31,14 @@ class Main extends PluginBase implements Listener{
     const unsafeBlocks = [10, 11, 51, 81];
     
 public function onEnable(): void{
+    if($this->isPocketMineMP()){
+    $this->multiworld = $this->getServer()->getPluginManager()->getPlugin("MultiWorld");
+    if(!$this->multiworld){
+        $this->getServer()->error("MultiWorld is required to install this plugin. Plugin disabled.");
+        $this->getServer()->getPluginManager()->disablePlugin($this);
+    }
+    }
+    
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 if(!is_file($this->getDataFolder() . "config.yml")){
     $this->saveDefaultConfig();
@@ -41,9 +49,12 @@ if (!is_dir($this->getDataFolder())) {
     @mkdir($this->getDataFolder());
     }
 }
+public function isPocketMineMP(){
+    return ($this->getServer()->getName() === "PocketMine-MP");
+    }
 public function Boarder(PlayerMoveEvent $event){
   
-    
+    if (in_array($event->getPlayer()->getLevel()->getFolderName(), $this->config->get("worlds"))) {
     if($this->config->get("def-level-spawn")){
         $spawn = $this->getServer()->getDefaultLevel()->getSpawnLocation();
     }else{
@@ -57,10 +68,11 @@ public function Boarder(PlayerMoveEvent $event){
           }
 			  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
 		 }
-	}
+    }
+}
 
 															/**
-     * @param $location
+     * @param Location $location
      * @return Vector3
      */
     public function correctPosition($location) : Vector3 {
@@ -93,9 +105,9 @@ public function Boarder(PlayerMoveEvent $event){
     }
     /**
      * @param Level $level
-     * @param $x
-     * @param $y
-     * @param $z
+     * @param int $x
+     * @param int $y
+     * @param int $z
      * @return int
      */
     private function findSafeY(Level $level, $x, $y, $z) : int {
@@ -113,9 +125,9 @@ public function Boarder(PlayerMoveEvent $event){
     }
     /**
      * @param Level $level
-     * @param $x
-     * @param $y
-     * @param $z
+     * @param int $x
+     * @param int $y
+     * @param int $z
      * @return bool
      */
     private function isSafe(Level $level, $x, $y, $z) : bool{

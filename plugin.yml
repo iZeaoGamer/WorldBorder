@@ -1,6 +1,8 @@
 name: WorldBorder
 api: 3.0.0
-version: 1.1.0
+version: 1.1.1
 author: iZeaoGamer
 main: iZeaoGamer\WorldBorder\Main
-description: "Worldborder plugin for PMMP."
+description: "Customisable World Border plugin for PMMP"
+
+

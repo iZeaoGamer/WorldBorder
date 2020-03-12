@@ -3,6 +3,11 @@
 # then the border will kick in.
 range: 10000
 
+# worlds: Add the worlds you'd like to enable world border.
+worlds:
+- world
+
+
 # teleport: Toggles on whether or not you teleport to the safest position
 # once you've reached the world border.
 # If you set this option to true,
