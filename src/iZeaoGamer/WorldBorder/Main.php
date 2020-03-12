@@ -1,4 +1,4 @@
-<<?php 
+<?php 
 namespace iZeaoGamer\WorldBorder;
 
 use pocketmine\level\Level;
