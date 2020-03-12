@@ -34,7 +34,7 @@ public function onEnable(): void{
     if($this->isPocketMineMP()){
     $this->multiworld = $this->getServer()->getPluginManager()->getPlugin("MultiWorld");
     if(!$this->multiworld){
-        $this->getServer()->error("MultiWorld is required to install this plugin. Plugin disabled.");
+        $this->getLogger()->error("MultiWorld is required to install this plugin. Plugin disabled.");
         $this->getServer()->getPluginManager()->disablePlugin($this);
     }
 }
