@@ -37,7 +37,7 @@ public function onEnable(): void{
         $this->getServer()->error("MultiWorld is required to install this plugin. Plugin disabled.");
         $this->getServer()->getPluginManager()->disablePlugin($this);
     }
-    }
+}
     
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 if(!is_file($this->getDataFolder() . "config.yml")){
@@ -51,7 +51,7 @@ if (!is_dir($this->getDataFolder())) {
 }
 public function isPocketMineMP(){
     return ($this->getServer()->getName() === "PocketMine-MP");
-    }
+}
 public function Boarder(PlayerMoveEvent $event){
   
     if (in_array($event->getPlayer()->getLevel()->getFolderName(), $this->config->get("worlds"))) {
