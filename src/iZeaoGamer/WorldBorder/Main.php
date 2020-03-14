@@ -41,16 +41,6 @@ $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, 
 if (!is_dir($this->getDataFolder())) {
     @mkdir($this->getDataFolder());
     }
-	 if($this->isPocketMineMP()){
-    $this->multiworld = $this->getServer()->getPluginManager()->getPlugin("MultiWorld");
-    if(!$this->multiworld){
-        $this->getLogger()->error("MultiWorld is required to install this plugin. Plugin disabled.");
-        $this->getServer()->getPluginManager()->disablePlugin($this);
-    }
-}
-}
-public function isPocketMineMP(){
-    return ($this->getServer()->getName() === "PocketMine-MP");
 }
 public function Boarder(PlayerMoveEvent $event){
   
