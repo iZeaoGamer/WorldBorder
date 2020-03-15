@@ -1,14 +1,14 @@
 <?php 
 namespace iZeaoGamer\WorldBorder;
 
-use pocketmine\level\World;
+use pocketmine\world\World;
 use pocketmine\math\Vector3;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
-use pocketmine\level\Position;
+use pocketmine\world\Position;
 
 class Main extends PluginBase implements Listener{
     private $x;
@@ -20,7 +20,7 @@ class Main extends PluginBase implements Listener{
     private $minZ;
     private $safeBlocks;
     private $unsafeBlocks;
-    private $level;
+    private $world;
     public $config;
 
     const safeBlocks = [0, 6, 8, 9, 27, 30, 31, 32, 37,
@@ -46,7 +46,7 @@ public function Boarder(PlayerMoveEvent $event){
   
     if (in_array($event->getPlayer()->getWorld()->getFolderName(), $this->config->get("worlds"))) {
     if($this->config->get("def-level-spawn")){
-        $spawn = $this->getServer()->getDefaultWorld()->getSpawnLocation();
+        $spawn = $this->getServer()->getWorldManager()->getDefaultWorld()->getSpawnLocation();
     }else{
         $spawn = new Vector3($this->config->get("spawn-coordinates")); //todo implement multiworld support
     }
@@ -82,7 +82,7 @@ public function Boarder(PlayerMoveEvent $event){
         elseif($z >= $this->maxZ){
             $z = $this->maxZ - $knockback;
         }
-        $y = $this->findSafeY($location->getLevel(), $x, $y, $z);
+        $y = $this->findSafeY($location->getWorld(), $x, $y, $z);
         if($y < 10){
             $y =  70;
         }
@@ -94,36 +94,36 @@ public function Boarder(PlayerMoveEvent $event){
         return new Vector3($x, $y, $z);
     }
     /**
-     * @param Level $level
+     * @param World $world
      * @param int $x
      * @param int $y
      * @param int $z
      * @return int
      */
-    private function findSafeY(World $level, $x, $y, $z) : int {
-        $top = $level->getHeightMap($x, $z) - 2;
+    private function findSafeY(World $world, $x, $y, $z) : int {
+        $top = $world->getHeightMap($x, $z) - 2;
         $bottom = 1;
         for($y1 = $y, $y2 = $y; ($y1 > $bottom) or ($y2 < $top); $y1--, $y2++){
             if($y1 > $bottom){
-                if($this->isSafe($level, $x, $y1, $z)) return $y1;
+                if($this->isSafe($world, $x, $y1, $z)) return $y1;
             }
             if($y2 < $top and $y2 != $y1){
-                if($this->isSafe($level, $x, $y2, $z)) return $y2;
+                if($this->isSafe($world, $x, $y2, $z)) return $y2;
             }
         }
         return -1;
     }
     /**
-     * @param Level $level
+     * @param World $world
      * @param int $x
      * @param int $y
      * @param int $z
      * @return bool
      */
-    private function isSafe(World $level, $x, $y, $z) : bool{
-        $safe = in_array($level->getBlockIdAt($x, $y, $z), self::safeBlocks) && in_array($level->getBlockIdAt($x, $y + 1, $z), self::safeBlocks);
+    private function isSafe(World $world, $x, $y, $z) : bool{
+        $safe = in_array($world->getBlockIdAt($x, $y, $z), self::safeBlocks) && in_array($world->getBlockIdAt($x, $y + 1, $z), self::safeBlocks);
         if(!$safe) return $safe;
-        $below = $level->getBlockIdAt($x, $y - 1, $z);
+        $below = $world->getBlockIdAt($x, $y - 1, $z);
         return ($safe and (!in_array($below, self::safeBlocks) or $below === 8 or $below === 9) and !in_array($below, self::unsafeBlocks));
     }
 }
