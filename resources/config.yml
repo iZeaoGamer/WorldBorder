@@ -24,6 +24,10 @@ border-message: "&aYou have reached the world border. Teleporting you somewhere 
 # If you set this to false, you'll need to configure the spawn-coordinates option
 # to the coordinates of your spawnpoint.
 def-level-spawn: true
+
+# This option decides whether or not the range depends on spawn-location (When you use /setworldspawn).
+# Note that def-level-spawn and spawn-location can't be both set to true. You must only use one of these.
+spawn-location: false
  
 # Spawn coordinates - Where the range will only begin once the spawn coordinates are set to your likings.
 # From there, the range will travel from the spawn coords to the max blocks (AKA Range).
