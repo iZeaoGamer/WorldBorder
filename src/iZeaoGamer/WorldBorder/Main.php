@@ -32,15 +32,25 @@ class Main extends PluginBase implements Listener{
     
 public function onEnable(): void{
     
+    
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 if(!is_file($this->getDataFolder() . "config.yml")){
     $this->saveDefaultConfig();
 }
 $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
 
+//if($this->config->get("def-level-spawn") and $this->config->get("spawn-location")){
+  if($this->isSameFile(){
+    $this->getLogger()->critical("There is a config error whilst loading the plugin.");
+    $this->getLogger()->error("def-level-spawn and spawn-location options cannot both be set to true in WorldBorder config.yml file on line 26 and line 30.");
+    $this->getServer()->getPluginManager()->disablePlugin($this);
+}
 if (!is_dir($this->getDataFolder())) {
     @mkdir($this->getDataFolder());
     }
+}
+public function isSameFile() : bool{
+    return ($this->config->get("def-level-spawn") and $this->config->get("spawn-location"));
 }
 public function Boarder(PlayerMoveEvent $event){
   
@@ -51,7 +61,11 @@ public function Boarder(PlayerMoveEvent $event){
 	    if($this->config->get("spawn-location")){
 		    $spawn = $event->getPlayer()->getLevel()->getSpawnLocation();
 		    }else{
-        $spawn = new Vector3($this->config->get("spawn-coordinates"));
+                    $cords = explode(", ", $this->config->get("cordinates"));
+                    $x = $cords[0];
+                    $y = $cords[1];
+                    $z = $cords[2];
+        $spawn = new Vector3($x, $y, $z);
     }
     }
 	 $player = $event->getPlayer();
@@ -63,7 +77,7 @@ public function Boarder(PlayerMoveEvent $event){
 			  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
 		 }
     }
-}
+    }
 
 															/**
      * @param Location $location

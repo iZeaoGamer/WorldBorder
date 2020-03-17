@@ -1,11 +1,11 @@
 # This is like spawn radius, but in blocks.
 # If exceeded over the amount of blocks
 # then the border will kick in.
-range: 10000
+range: 1000
 
 # worlds: Add the worlds you'd like to enable world border.
 worlds:
-- world
+- plots
 
 
 # teleport: Toggles on whether or not you teleport to the safest position
@@ -23,7 +23,7 @@ border-message: "&aYou have reached the world border. Teleporting you somewhere 
 # it'll rely on default level spawn and ignore the spawn-coordinates option.
 # If you set this to false, you'll need to configure the spawn-coordinates option
 # to the coordinates of your spawnpoint.
-def-level-spawn: true
+def-level-spawn: false
 
 # This option decides whether or not the range depends on spawn-location (When you use /setworldspawn).
 # Note that def-level-spawn and spawn-location can't be both set to true. You must only use one of these.
@@ -31,6 +31,6 @@ spawn-location: false
  
 # Spawn coordinates - Where the range will only begin once the spawn coordinates are set to your likings.
 # From there, the range will travel from the spawn coords to the max blocks (AKA Range).
-# Ignore this option if def-level-spawn is true.
-spawn-coordinates: 1, 1, 1
+# Ignore this option if def-level-spawn is true or spawn-location is set to true.
+cordinates: -5, 65, -4
   
