@@ -48,7 +48,11 @@ public function Boarder(PlayerMoveEvent $event){
     if($this->config->get("def-level-spawn")){
         $spawn = $this->getServer()->getDefaultLevel()->getSpawnLocation();
     }else{
-        $spawn = new Vector3($this->config->get("spawn-coordinates")); //todo implement multiworld support
+	    if($this->config->get("spawn-location")){
+		    $spawn = $event->getPlayer()->getLocation()->getSpawnLocation();
+		    }else{
+        $spawn = new Vector3($this->config->get("spawn-coordinates"));
+    }
     }
 	 $player = $event->getPlayer();
 		 if($spawn->distance($player) >= $this->config->get("range")){
