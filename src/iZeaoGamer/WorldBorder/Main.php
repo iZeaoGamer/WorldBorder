@@ -61,7 +61,7 @@ public function Boarder(PlayerMoveEvent $event){
 	    if($this->config->get("spawn-location")){
 		    $spawn = $event->getPlayer()->getLevel()->getSpawnLocation();
 		    }else{
-                    $cords = explode(", ", $this->config->get("cordinates"));
+                    $cords = explode(", ", $this->config->get("coordinates"));
                     $x = $cords[0];
                     $y = $cords[1];
                     $z = $cords[2];

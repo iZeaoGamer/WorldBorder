@@ -29,8 +29,8 @@ def-level-spawn: false
 # Note that def-level-spawn and spawn-location can't be both set to true. You must only use one of these.
 spawn-location: false
  
-# Spawn coordinates - Where the range will only begin once the spawn coordinates are set to your likings.
+# coordinates - Where the range will only begin once the spawn coordinates are set to your likings.
 # From there, the range will travel from the spawn coords to the max blocks (AKA Range).
 # Ignore this option if def-level-spawn is true or spawn-location is set to true.
-cordinates: -5, 65, -4
+coordinates: -5, 65, -4
   
