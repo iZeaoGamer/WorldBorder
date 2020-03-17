@@ -49,7 +49,7 @@ public function Boarder(PlayerMoveEvent $event){
         $spawn = $this->getServer()->getDefaultLevel()->getSpawnLocation();
     }else{
 	    if($this->config->get("spawn-location")){
-		    $spawn = $this->getServer()->getLevelByName($this->config->get("worlds")->getSpawnLocation());
+		    $spawn = $event->getPlayer()->getLevel()->getSpawnLocation();
 		    }else{
         $spawn = new Vector3($this->config->get("spawn-coordinates"));
     }
