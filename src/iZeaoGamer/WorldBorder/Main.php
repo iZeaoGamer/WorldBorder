@@ -40,7 +40,7 @@ if(!is_file($this->getDataFolder() . "config.yml")){
 $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
 
 //if($this->config->get("def-level-spawn") and $this->config->get("spawn-location")){
-  if($this->isSameFile(){
+  if($this->isSameFile()){
     $this->getLogger()->critical("There is a config error whilst loading the plugin.");
     $this->getLogger()->error("def-level-spawn and spawn-location options cannot both be set to true in WorldBorder config.yml file on line 26 and line 30.");
     $this->getServer()->getPluginManager()->disablePlugin($this);
