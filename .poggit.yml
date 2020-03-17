@@ -1,6 +1,6 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/iZeaoGamer/WorldBorder
 branches:
-- dev ##future dev builds will head over there!
+- dev # future dev builds will head over there!
 - master
 projects:
   WorldBorder:
