@@ -10,6 +10,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\level\Position;
 
+use iZeaoGamer\WorldBorder\utils\FormManager;
 use iZeaoGamer\WorldBorder\commands\WorldBorderCommand;
 
 class Main extends PluginBase implements Listener{
@@ -24,6 +25,8 @@ class Main extends PluginBase implements Listener{
     private $unsafeBlocks;
     private $level;
     public $config;
+     /** @var  Main $instance */
+     private static $instance;
 
     const safeBlocks = [0, 6, 8, 9, 27, 30, 31, 32, 37,
         38, 39, 40, 50, 59, 63, 64, 65,
@@ -33,7 +36,9 @@ class Main extends PluginBase implements Listener{
     const unsafeBlocks = [10, 11, 51, 81];
     
 public function onEnable(): void{
-    
+    self::$instance = $this;
+    $this->formManager = new FormManager($this);
+
     
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 if(!is_file($this->getDataFolder() . "config.yml")){
@@ -51,6 +56,13 @@ if (!is_dir($this->getDataFolder())) {
     @mkdir($this->getDataFolder());
     }
 }
+
+ /**
+     * @return Main $plugin
+     */
+    public static function getInstance(): Main {
+        return self::$instance;
+    }
 public function isSameFile() : bool{
     return ($this->config->get("def-level-spawn") and $this->config->get("spawn-location"));
 }

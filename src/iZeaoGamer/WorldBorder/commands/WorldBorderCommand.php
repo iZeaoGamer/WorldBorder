@@ -4,8 +4,8 @@ namespace iZeaoGamer\WorldBorder\commands;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\utils\TextFormat;
-use jojoe77777\FormAPI\CustomForm;
-use jojoe77777\FormAPI\SimpleForm;
+use iZeaoGamer\WorldBorder\form\CustomForm;
+use iZeaoGamer\WorldBorder\form\SimpleForm;
 
 class WorldBorderCommand extends Command{
     public function __construct(Main $plugin){
@@ -25,7 +25,17 @@ class WorldBorderCommand extends Command{
             return true;
         }
             if($this->plugin->getConfig()->get("open-type") === "forms" or $this->plugin->getConfig()->get("open-type") === "both"){
-                $this->MainForm($sender);
+                $form = new SimpleForm("World Border", "Select action");
+                $form->id = 0;
+                $form->setContent("Customise World Border in-game!");
+                $form->addButton("Worlds");
+                $form->addButton("Range");
+                $form->addButton("Teleport");
+                $form->addButton("Default Level Spawn");
+                $form->addButton("Spawn Location");
+                $form->addButton("Coordinates");
+                $player->sendForm($form);
+
             }elseif($this->plugin->getConfig()->get("open-type") === "command" or $this->plugin->getConfig()->get("open-type") === "both"){
                 if(!isset($args[0])){
                 $sender->sendMessage(TextFormat::colorize("&5&lWorldBorder &6Help Commands"));
@@ -122,261 +132,4 @@ class WorldBorderCommand extends Command{
 
 
 }
-public function MainForms(Player $sender){
-    $form = new SimpleForm(function (Player $sender, $data){
-        $result = $data;
-        if ($result === null) {
-            return;
-        }
-            switch ($result) {
-                case 0:
-                    $this->WorldForms($sender);
-                break;
-                case 1:
-                    $this->RangeForms($sender);
-                    break;
-                    case 2:
-                    $this->TeleportForms($sender);
-                    break;
-                    case 3:
-                        $this->DefLevelSpawnForms($sender);
-                    break;
-                    case 4:
-                       $this->SpawnLocationForms($sender);
-                    break; 
-                    case 5:
-                        $this->CoordinatesForms($sender);
-                    break;
-            }
-        
-            });
-        
-            $form->setTitle("WorldBorder Config"); 
-            $form->setContent("Customise World Border in-game!");
-            $form->addButton("Worlds");
-            $form->addButton("Range");
-            $form->addButton("Teleport");
-            $form->addButton("Default Level Spawn");
-            $form->addButton("Spawn Location");
-            $form->addButton("Coordinates");
-            $player->sendForm($form);
-    }
-public function WorldForms(Player $sender){
-    $form = new CustomForm(function (Player $sender, $data){
-        if($result === null){
-            return;
-        }
-            $this->plugin->getConfig()->set("worlds", implode("\n-", $data[1]));
-            $this->plugin->getConfig()->save();
-            $this->WorldSuccess($sender);
-            return true;
-        });
-        $form->setTitle("WorldBorder - Worlds");
-        $form->addLabel("Configure which worlds the world border should work in.");
-        foreach($this->plugin->getConfig()->get("worlds") as $worlds){
-        $form->addInput("Worlds", $worlds);
-        }
-        $player->sendForm($form);
-    }
-    public function RangeForms(Player $sender){
-        $form = new CustomForm(function (Player $sender, $data){
-            if($result === null){
-                return;
-            }
-            if(is_string($result[1])){
-                $this->RangeString($sender);
-                return true;
-            }
-            $this->plugin->getConfig()->set("range", (int)$result[1]);
-            $this->plugin->getConfig()->save();
-            $this->RangeSuccess($sender);
-        });
-        $form->setTitle("WorldBorder - Range");
-        $form->addLabel("Configure how far a worldborder distance (in blocks) should be.");
-        $form->addInput("Range", $this->plugin->getConfig()->get("range"));
-        $player->sendForm($form);
-    }
-    public function TeleportForms(Player $sender){
-        $form = new CustomForm(function (Player $sender, $data){
-            if($result === null){
-                return;
-            }
-            if(!is_bool($result[1])){
-                $this->TPBool($sender);
-                return true;
-            }
-            $this->plugin->getConfig()->set("teleport", (bool)$result[1]);
-            $this->plugin->getConfig()->save();
-            $this->TPSuccess($sender);
-        });
-        $form->setTitle("WorldBorder - Teleport");
-        $form->addLabel("Configure whether or not the border teleports you to a safe location.");
-        $form->addInput("Teleport", (bool)$this->plugin->getConfig()->get("teleport"));
-        $player->sendForm($form);
-    }
-    public function DefLevelSpawnForms(Player $sender){
-        $form = new CustomForm(function (Player $sender, $data){
-            if($result === null){
-                return;
-            }
-            if(!is_bool($result[1])){
-                $this->DLSBool($sender);
-                return true;
-            }
-            $this->plugin->getConfig()->set("def-level-spawn", (bool)$result[1]);
-            $this->plugin->getConfig()->save();
-            $this->DLSSuccess($sender);
-            return true;
-
-        });
-        $form->setTitle("WorldBorder - Default Level Spawn");
-        $form->addLabel("Configure whether or not the range depends on the default level spawnpoint.");
-        $form->addInput("Default Level Spawn", (bool)$this->plugin->getConfig()->get("def-level-spawn"));
-        $player->sendForm($form);
-    }
-    public function SpawnLocationForms(Player $sender){
-        $form = new CustomForm(function (Player $sender, $data){
-            if($result === null){
-                return;
-            }
-            if(!is_bool($result[1])){
-                $this->SLBool($sender);
-                return true;
-            }
-            $this->plugin->getConfig()->set("spawn-location", (bool)$result[1]);
-            $this->plugin->getConfig()->save();
-            $this->SLSuccess($sender);
-            return true;
-        });
-        $form->setTitle("WorldBorder - Spawn-Location");
-        $form->addLabel("Configure whether or not the range depends on spawn location. (/setworldspawn)");
-        $form->addInput("Spawn Location", (bool)$this->plugin->getConfig()->get("spawn-location"));
-        $player->sendForm($form);
-    }
-    public function CoordinatesForms(Player $sender){
-       
-        $form = new CustomForm(function (Player $sender, $data){
-            if($result === null){
-                return;
-            }
-            
-            $this->plugin->getConfig()->set("coordinates", (int)$result[1], (int)$result[2], (int)$result[3]);
-            $this->plugin->getConfig()->save();
-            $this->CoordsSuccess($sender);
-            return true;
-        });
-        $coords = explode(", ", $this->config->get("coordinates"));
-        $x = $coords[0];
-        $y = $coords[1];
-        $z = $coords[2];
-        $form->setTitle("WorldBorder - Coordinates");
-        $form->addLabel("Configure the X-Y-Z coordinates which the range depends on. (If def-level-spawn & spawn-location is set to false.)");
-        $form->addInput("X", $x);
-        $form->addInput("Y", $y);
-        $form->addInput("Z", $z);
-        $player->sendForm($form);
-    }
-    //here comes the messages boi!
-    //todo seperate the messages to a seperate class.
-    public function SLBool(Player $sender){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Spawn Location Error");
-        $form->setContent("Argument 1 mut be a bool. Please try using /$commandLabel spawn-location <bool: bool>");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function SLSuccess(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Spawn Location Success");
-        $form->setContent("Spawn Location has been set successfully.");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function DLSBool(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Default Spawn Location Error");
-        $form->setContent("Argument 1 mut be a bool. Please try using /$commandLabel def-level-spawn <bool: bool>");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function DLSSuccess(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Default Level Spawn Success");
-        $form->setContent("Default level spawn has been set with success.");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function TPBool(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Teleport Error");
-        $form->setContent("Argument 1 mut be a bool. Please try using /$commandLabel teleport <bool: bool>");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function TPSuccess(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Teleport Success");
-        $form->setContent("Teleportation option has been set with success.");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function RangeString(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Range String Error");
-        $form->setContent("Argument 1 mut be a int. Please try using /$commandLabel range <int>");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function RangeSuccess(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - Range Success");
-        $form->setContent("Range has been set with success!");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-    public function WorldSuccess(Player $player){
-        $form = new SimpleForm(function(Player $player, $data){
-			if($data === null){
-				return;
-			}
-        });
-        $form->setTitle("WorldBorder - World Success");
-        $form->setContent("Worlds have been set with success");
-        $form->addButton("Submit");
-        $player->sendForm($form);
-    }
-
-
 }
