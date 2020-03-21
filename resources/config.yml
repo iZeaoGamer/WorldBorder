@@ -1,3 +1,11 @@
+
+# Open-Type - Allows you to open as of which open type you'd like to choose once executed the command.
+# You can choose to:
+# Open with forms. If so, just select forms below.
+# Open with command. If so, just select command below.
+# Open with both. If so, just select both below.
+open-type: forms
+
 # This is like spawn radius, but in blocks.
 # If exceeded over the amount of blocks
 # then the border will kick in.

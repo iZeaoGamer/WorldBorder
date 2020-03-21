@@ -10,6 +10,8 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\level\Position;
 
+use iZeaoGamer\WorldBorder\commands\WorldBorderCommand;
+
 class Main extends PluginBase implements Listener{
     private $x;
     private $z;
@@ -38,7 +40,7 @@ if(!is_file($this->getDataFolder() . "config.yml")){
     $this->saveDefaultConfig();
 }
 $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
-
+$this->getServer()->getCommandMap()->register("worldborder", new WorldBorderCommand($this));
 //if($this->config->get("def-level-spawn") and $this->config->get("spawn-location")){
   if($this->isSameFile()){
     $this->getLogger()->critical("There is a config error whilst loading the plugin.");
