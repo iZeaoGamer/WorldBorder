@@ -46,7 +46,6 @@ if(!is_file($this->getDataFolder() . "config.yml")){
 }
 $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, array());
 $this->getServer()->getCommandMap()->register("worldborder", new WorldBorderCommand($this));
-//if($this->config->get("def-level-spawn") and $this->config->get("spawn-location")){
   if($this->isSameFile()){
     $this->getLogger()->critical("There is a config error whilst loading the plugin.");
     $this->getLogger()->error("def-level-spawn and spawn-location options cannot both be set to true in WorldBorder config.yml file on line 26 and line 30.");
@@ -97,7 +96,7 @@ public function Boarder(PlayerMoveEvent $event){
      * @param Location $location
      * @return Vector3
      */
-    public function correctPosition($location) : Vector3 {
+    public function correctPosition(Location $location) : Vector3 {
         $knockback = 4.0;
         $x = $location->getX();
         $z = $location->getZ();
@@ -132,7 +131,7 @@ public function Boarder(PlayerMoveEvent $event){
      * @param int $z
      * @return int
      */
-    private function findSafeY(Level $level, $x, $y, $z) : int {
+    private function findSafeY(Level $level, int $x, int $y, int $z) : int {
         $top = $level->getHeightMap($x, $z) - 2;
         $bottom = 1;
         for($y1 = $y, $y2 = $y; ($y1 > $bottom) or ($y2 < $top); $y1--, $y2++){
@@ -152,7 +151,7 @@ public function Boarder(PlayerMoveEvent $event){
      * @param int $z
      * @return bool
      */
-    private function isSafe(Level $level, $x, $y, $z) : bool{
+    private function isSafe(Level $level, int $x, int $y, int $z) : bool{
         $safe = in_array($level->getBlockIdAt($x, $y, $z), self::safeBlocks) && in_array($level->getBlockIdAt($x, $y + 1, $z), self::safeBlocks);
         if(!$safe) return $safe;
         $below = $level->getBlockIdAt($x, $y - 1, $z);
