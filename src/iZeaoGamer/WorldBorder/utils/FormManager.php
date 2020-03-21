@@ -8,6 +8,7 @@ use iZeaoGamer\WorldBorder\form\CustomForm;
 use pocketmine\form\Form;
 use iZeaoGamer\WorldBorder\Main;
 use pocketmine\Player;
+use pocketmine\utils\TextFormat;
 
 class FormManager {
 
