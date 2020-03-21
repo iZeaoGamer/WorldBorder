@@ -116,6 +116,12 @@ class FormManager {
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean. (true/false)"));
                     return true;
                 }
+                
+                if($data[1] && Main::getInstance()->getConfig()->get("spawn-location")){
+                    $player->sendMessage(TextFormat::colorize("&cOne of the options have been set to true, this can't be set to true!"));
+                    return true;
+                }
+            
                 Main::getInstance()->getConfig()->set("def-level-spawn", (bool)$data[1]);
                 Main::getInstance()->getConfig()->save();
                 $player->sendMessage(TextFormat::colorize("&5Default level spawn location has been set to &6" . $data[1]));
@@ -123,6 +129,10 @@ class FormManager {
             case FORM_SPAWN_LOCATION:
                 if(!is_bool($data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean. (true/false)"));
+                    return true;
+                }
+                if($data[1] && Main::getInstance()->getConfig()->get("def-level-spawn")){
+                    $player->sendMessage(TextFormat::colorize("&cOne of the options have been set to true, this can't be set to true!"));
                     return true;
                 }
                 Main::getInstance()->getConfig()->set("spawn-location", (bool)$data[1]);
