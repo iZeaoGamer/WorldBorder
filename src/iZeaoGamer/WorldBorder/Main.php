@@ -9,6 +9,7 @@ use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use pocketmine\level\Position;
+use pocketmine\level\Location;
 
 use iZeaoGamer\WorldBorder\utils\FormManager;
 use iZeaoGamer\WorldBorder\commands\WorldBorderCommand;
