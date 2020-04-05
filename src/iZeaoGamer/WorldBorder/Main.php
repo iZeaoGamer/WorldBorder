@@ -56,15 +56,70 @@ if (!is_dir($this->getDataFolder())) {
     @mkdir($this->getDataFolder());
     }
 }
+	//todo be able to change safe, and unsafe block ids.
 
- /**
+     /**
      * @return Main $plugin
      */
     public static function getInstance(): Main {
         return self::$instance;
     }
+	/**
+	* Checks whether or not BOTH options are the same.
+	* @return bool
+	*/
 public function isSameFile() : bool{
     return ($this->config->get("def-level-spawn") and $this->config->get("spawn-location"));
+}
+	/**
+	* Checks to ensure the worldborder is compatible with certain worlds, as configured in the config.yml file.
+	* @param Player $player
+	* @return bool
+	*/
+public function isInWorld(Player $player): bool{
+return (in_array($player->getLevel()->getFolderName(), $this->config->get("worlds")));
+}
+	
+/**
+* Checks for if the position of the range is near or inside the specific range distance.
+* Player: Checks for the player name, and to recognize whether or not the player is in the range.
+* Position: Checks for the position of the range (More likely the spawnpoint or the spawn position (/setworldspawn, /setspawn, or otherwise.)
+* @param Player $player
+* @param Position $spawn
+* @return bool
+*/
+public function isInRange(Player $player, Position $spawn): bool{
+return ($spawn->distance($player) >= $this->config->get("range"));
+}
+	
+/**
+* Sets the range via the config.
+* @param int $range
+*/
+public function setRange(int $range){
+$this->config->set("range", $range);
+$this->config->save();
+}
+	
+/**
+* Reloads the config file, can be used by other plugins if wanting to reload their configurations.
+* @param Config
+* @param bool $save
+*/
+public function reloadConfig(Config $config, bool $save = true){
+	if($save){
+$config->save();
+	}
+$config->reload();
+}
+	
+/**
+* Returns the default config.yml used by this plugin.
+* This function will not work by other plugins. So this function is internal, and should only be used by this plugin.
+* @return Config
+*/
+public function getPluginConfig(): Config{
+return $this->config;
 }
 public function Boarder(PlayerMoveEvent $event){
   
