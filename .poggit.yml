@@ -5,5 +5,5 @@ projects:
   WorldBorder:
     path: ""
     lint:
-      phpstan: false
+      phpstan: true
 ...
