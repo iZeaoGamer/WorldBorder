@@ -4,6 +4,4 @@ branches:
 projects:
   WorldBorder:
     path: ""
-    lint:
-      phpstan: true
 ...
