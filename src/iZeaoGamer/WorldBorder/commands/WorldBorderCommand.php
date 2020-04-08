@@ -7,6 +7,7 @@ use pocketmine\utils\TextFormat;
 use iZeaoGamer\WorldBorder\form\CustomForm;
 use iZeaoGamer\WorldBorder\form\SimpleForm;
 use iZeaoGamer\WorldBorder\Main;
+use pocketmine\Player;
 
 class WorldBorderCommand extends Command{
     public function __construct(Main $plugin){
