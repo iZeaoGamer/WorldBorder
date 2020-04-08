@@ -11,7 +11,7 @@ use pocketmine\Player;
 
 class WorldBorderCommand extends Command{
     public function __construct(Main $plugin){
-        parent::__consturct("worldborder");
+        parent::__construct("worldborder");
         $this->setPermission("worldborder.command"); //todo make this configurable
         $this->setDescription("Customise World Borders in-game!");
         $this->setUsage("/worldborder <command>"); 
