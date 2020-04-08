@@ -13,6 +13,7 @@ use pocketmine\level\Location;
 
 use iZeaoGamer\WorldBorder\utils\FormManager;
 use iZeaoGamer\WorldBorder\commands\WorldBorderCommand;
+use pocketmine\Player;
 
 class Main extends PluginBase implements Listener{
     private $x;
