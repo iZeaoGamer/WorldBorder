@@ -106,7 +106,7 @@ $this->config->save();
 * @param Config
 * @param bool $save
 */
-public function reloadConfig(Config $config, bool $save = true){
+public function configReload(Config $config, bool $save = true){
 	if($save){
 $config->save();
 	}
