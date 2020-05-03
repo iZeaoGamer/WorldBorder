@@ -18,7 +18,7 @@ class WorldBorderCommand extends Command{
         $this->setAliases(["wb"]); //todo make configurable.
         $this->plugin = $plugin;
     }
-    public function execute(CommandSender $sender, string $commandLabel, array $args): bool{
+    public function execute(CommandSender $sender, string $commandLabel, array $args){
         if(!$this->testPermission($sender)){
             return true;
         }
