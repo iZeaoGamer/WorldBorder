@@ -77,7 +77,7 @@ public function isSameFile() : bool{
 	* @param Player $player
 	* @return bool
 	*/
-public function isInWorld(Player $player): bool{
+public function isInWorldArea(Player $player): bool{
 return (in_array($player->getLevel()->getFolderName(), $this->config->get("worlds")));
 }
 	
