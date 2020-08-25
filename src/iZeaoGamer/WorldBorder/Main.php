@@ -8,6 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
+use pocketmine\world\Location;
 use pocketmine\world\Position;
 
 class Main extends PluginBase implements Listener{
@@ -52,7 +53,8 @@ public function Boarder(PlayerMoveEvent $event){
     }
 	 $player = $event->getPlayer();
 		 if($spawn->distance($player) >= $this->config->get("range")){
-          $event->setCancelled(true);
+
+			 $event->setCancelled(true);
           if($this->config->get("teleport")){
           $player->teleport($this->correctPosition($player->getLocation()));
           }
@@ -65,7 +67,7 @@ public function Boarder(PlayerMoveEvent $event){
      * @param Location $location
      * @return Vector3
      */
-    public function correctPosition($location) : Vector3 {
+    public function correctPosition(Location $location) : Vector3 {
         $knockback = 4.0;
         $x = $location->getX();
         $z = $location->getZ();
@@ -100,7 +102,7 @@ public function Boarder(PlayerMoveEvent $event){
      * @param int $z
      * @return int
      */
-    private function findSafeY(World $world, $x, $y, $z) : int {
+    private function findSafeY(World $world, int $x, int $y, int $z) : int {
         $top = $world->getHeightMap($x, $z) - 2;
         $bottom = 1;
         for($y1 = $y, $y2 = $y; ($y1 > $bottom) or ($y2 < $top); $y1--, $y2++){
@@ -120,7 +122,7 @@ public function Boarder(PlayerMoveEvent $event){
      * @param int $z
      * @return bool
      */
-    private function isSafe(World $world, $x, $y, $z) : bool{
+    private function isSafe(World $world, int $x, int $y, int $z) : bool{
         $safe = in_array($world->getBlockIdAt($x, $y, $z), self::safeBlocks) && in_array($world->getBlockIdAt($x, $y + 1, $z), self::safeBlocks);
         if(!$safe) return $safe;
         $below = $world->getBlockIdAt($x, $y - 1, $z);
