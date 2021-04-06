@@ -123,7 +123,7 @@ public function getPluginConfig(): Config{
 return $this->config;
 }
 public function Boarder(PlayerMoveEvent $event){
-  
+    $player = $event->getPlayer();
     if (in_array($event->getPlayer()->getLevel()->getFolderName(), $this->config->get("worlds"))) {
     if($this->config->get("def-level-spawn")){
         $spawn = $this->getServer()->getDefaultLevel()->getSpawnLocation();
@@ -132,22 +132,49 @@ public function Boarder(PlayerMoveEvent $event){
 		    $spawn = $event->getPlayer()->getLevel()->getSpawnLocation();
 		    }else{
                     $cords = explode(", ", $this->config->get("coordinates"));
-                    $x = $cords[0];
-                    $y = $cords[1];
-                    $z = $cords[2];
+                    $x = (int)$cords[0];
+                    $y = (int)$cords[1];
+                    $z = (int)$cords[2];
         $spawn = new Vector3($x, $y, $z);
     }
     }
-	 $player = $event->getPlayer();
+	 
+     if($this->config->get("use-range")){
 		 if($spawn->distance($player) >= $this->config->get("range")){
           $event->setCancelled(true);
           if($this->config->get("teleport")){
           $player->teleport($this->correctPosition($player->getLocation()));
           }
-			  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
-		 }
+		  $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
+	    }
+    }else{
+        $configX = $this->config->get("x");
+        $configZ = $this->config->get("z");
+$x = $player->getFloorX();
+$z = $player->getFloorZ();
+$spawnX = $spawn->getFloorX() + $configX;
+$spawnZ = $spawn->getFloorZ() + $configZ;
+$currentX = abs($x);
+$currentZ = abs($z);
+$maxX = abs($spawnX);
+$maxZ = abs($spawnZ);
+if($currentX >= $maxX){
+    $event->setCancelled();
+    if($this->config->get("teleport")){
+        $player->teleport($this->correctPosition($player->getLocation()));
+        }
+            $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
+       }
+    if($currentZ >= $maxZ){
+        $event->setCancelled();
+        if($this->config->get("teleport")){
+            $player->teleport($this->correctPosition($player->getLocation()));
+            }
+                $player->sendMessage(TextFormat::colorize($this->config->get("border-message")));
+           }
+        }
     }
-    }
+}
 
 															/**
      * @param Location $location

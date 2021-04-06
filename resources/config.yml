@@ -6,14 +6,26 @@
 # Open with both. If so, just select both below.
 open-type: forms
 
+# Change the way you handle radiuses!
+# If set to true, will use range instead of X, and Z.
+# If set to false, it'll use x, and Z mas distance (in blocks) instead of range.
+# Please keep in mind - Using range is a lot harder, and may not do what you want it to do.
+# Default: false = X, Z.
+use-range: false
+
 # This is like spawn radius, but in blocks.
 # If exceeded over the amount of blocks
 # then the border will kick in.
 range: 1000
 
+x: 15000
+
+z: 15000
+
 # worlds: Add the worlds you'd like to enable world border.
 worlds:
-- plots
+- sb
+- sb-nether
 
 
 # teleport: Toggles on whether or not you teleport to the safest position
