@@ -36,7 +36,7 @@ class WorldBorderCommand extends Command{
                 $form->addButton("Default Level Spawn");
                 $form->addButton("Spawn Location");
                 $form->addButton("Coordinates");
-                $player->sendForm($form);
+                $sender->sendForm($form);
 
             }elseif($this->plugin->getConfig()->get("open-type") === "command" or $this->plugin->getConfig()->get("open-type") === "both"){
                 if(!isset($args[0])){
