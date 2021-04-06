@@ -40,14 +40,14 @@ class FormManager {
         $form->id = $data;
 
         switch ($data) {
-            case FORM_WORLDS:
+            case self::FORM_WORLDS:
                 $form->addLabel("Configure which worlds the world border should work in.");
         foreach(Main::getInstance()->getConfig()->get("worlds") as $worlds){
         $form->addInput("Worlds", $worlds);
         }
         $player->sendForm($form);
             break;
-            case FORM_RANGE:
+            case self::FORM_RANGE:
                 $form->addLabel("Configure how far a worldborder distance (in blocks) should be.");
                 $form->addInput("Range", Main::getInstance()->getConfig()->get("range"));
                 $player->sendForm($form);
@@ -57,12 +57,12 @@ class FormManager {
         $form->addInput("Teleport", (bool)Main::getInstance()->getConfig()->get("teleport"));
         $player->sendForm($form);
             break;
-            case FORM_DEFAULT_LEVEL_SPAWN:
+            case self::FORM_DEFAULT_LEVEL_SPAWN:
                 $form->addLabel("Configure whether or not the range depends on the default level spawnpoint.");
                 $form->addInput("Default Level Spawn", (bool)Main::getInstance()->getConfig()->get("def-level-spawn"));
                 $player->sendForm($form);
             break;
-            case FORM_SPAWN_LOCATION:
+            case self::FORM_SPAWN_LOCATION:
                 $form->addLabel("Configure whether or not the range depends on spawn location. (/setworldspawn)");
         $form->addInput("Spawn Location", (bool)Main::getInstance()->getConfig()->get("spawn-location"));
         $player->sendForm($form);
@@ -88,13 +88,13 @@ class FormManager {
     public function handleCustomFormResponse(Player $player, $data, CustomForm $form) {
         if($data === null) return;
         switch ($form->id) {
-            case FORM_WORLDS:
+            case self::FORM_WORLDS:
                 Main::getInstance()->getConfig()->set("worlds", implode("\n-", $data[1]));
                 Main::getInstance()->getConfig()->save();
             $player->sendMesage(TextFormat::colorize("&5Worlds have been set!"));
             break;
 
-            case FORM_RANGE:
+            case self::FORM_RANGE:
                 if(is_string($data[1])){
                    $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a int."));
                    return true;
@@ -103,7 +103,7 @@ class FormManager {
                 Main::getInstance()->getConfig()->save();
                 $player->sendMessage(TextFormat::colorize("&5Range has been set to &6" . $data[1]));
             break;
-            case FORM_TELEPORT:
+            case self::FORM_TELEPORT:
                 if(!is_bool($data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean! (true/false)"));
                     return true;
@@ -112,7 +112,7 @@ class FormManager {
                 Main::getInstance()->getConfig()->save();
                 $player->sendMessage(TextFormat::colorize("&5Teleportation has been set to &6" . $data[1]));
             break;
-            case FORM_DEFAULT_LEVEL_SPAWN:
+            case self::FORM_DEFAULT_LEVEL_SPAWN:
                 if(!is_bool($data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean. (true/false)"));
                     return true;
@@ -127,7 +127,7 @@ class FormManager {
                 Main::getInstance()->getConfig()->save();
                 $player->sendMessage(TextFormat::colorize("&5Default level spawn location has been set to &6" . $data[1]));
             break;
-            case FORM_SPAWN_LOCATION:
+            case self::FORM_SPAWN_LOCATION:
                 if(!is_bool($data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean. (true/false)"));
                     return true;
@@ -140,7 +140,7 @@ class FormManager {
                 Main::getInstance()->getConfig()->save();
                 $player->sendMessage(TextFormat::colorize("&5Spawn-Location has been set to &6" . $data[1]));
             break;
-            case FORM_COORDINATES:
+            case self::FORM_COORDINATES:
                 Main::getInstance()->getConfig()->set("coordinates", (int)$data[1], (int)$data[2], (int)$data[3]);
                 Main::getInstance()->getConfig()->save();
             $player->sendMessage(TextFormat::colorize("&5Coordinates has been set to: &6" . $data[1] . ", " . $data[2] . ", and " . $data[3]));
