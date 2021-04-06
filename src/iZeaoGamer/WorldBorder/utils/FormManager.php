@@ -52,7 +52,7 @@ class FormManager {
                 $form->addInput("Range", Main::getInstance()->getConfig()->get("range"));
                 $player->sendForm($form);
             break;
-            case FORM_TELEPORT:
+            case self::FORM_TELEPORT:
                 $form->addLabel("Configure whether or not the border teleports you to a safe location.");
         $form->addInput("Teleport", (bool)Main::getInstance()->getConfig()->get("teleport"));
         $player->sendForm($form);
@@ -95,8 +95,8 @@ class FormManager {
             break;
 
             case self::FORM_RANGE:
-                if(is_string($data[1])){
-                   $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a int."));
+                if(!is_int((int)$data[1])){
+                   $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a number."));
                    return true;
                 }
                 Main::getInstance()->getConfig()->set("range", (int)$data[1]);
@@ -104,7 +104,7 @@ class FormManager {
                 $player->sendMessage(TextFormat::colorize("&5Range has been set to &6" . $data[1]));
             break;
             case self::FORM_TELEPORT:
-                if(!is_bool($data[1])){
+                if(!is_bool((bool)$data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean! (true/false)"));
                     return true;
                 }
@@ -113,7 +113,7 @@ class FormManager {
                 $player->sendMessage(TextFormat::colorize("&5Teleportation has been set to &6" . $data[1]));
             break;
             case self::FORM_DEFAULT_LEVEL_SPAWN:
-                if(!is_bool($data[1])){
+                if(!is_bool((bool)$data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean. (true/false)"));
                     return true;
                 }
@@ -128,7 +128,7 @@ class FormManager {
                 $player->sendMessage(TextFormat::colorize("&5Default level spawn location has been set to &6" . $data[1]));
             break;
             case self::FORM_SPAWN_LOCATION:
-                if(!is_bool($data[1])){
+                if(!is_bool((bool)$data[1])){
                     $player->sendMessage(TextFormat::colorize("&cArgument 1 must be a boolean. (true/false)"));
                     return true;
                 }
